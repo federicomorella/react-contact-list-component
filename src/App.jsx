@@ -2,36 +2,28 @@ import { useState } from 'react'
 import './App.css'
 import {Contacts} from './components/Contacts/Contacts'
 import 'bootstrap/dist/css/bootstrap.min.css';
-function newContact(name,email){
-  return{name,email}
-}
-const contacts=[
-  newContact('fede','fede@pp.com'),
-  newContact('jesi','jesi@pp.com'),
-  newContact('pancho','pancho@pp.com'),
-  newContact('pepe','pepe@pp.com'),
-  newContact('fede','fede@pp.com'),
-  newContact('jesi','jesi@pp.com'),
-  newContact('pancho','pancho@pp.com'),
-  newContact('pepe','pepe@pp.com'),
-  newContact('fede','fede@pp.com'),
-  newContact('jesi','jesi@pp.com'),
-  newContact('pancho','pancho@pp.com'),
-  newContact('pepe','pepe@pp.com'),
-  newContact('fede','fede@pp.com'),
-  newContact('jesi','jesi@pp.com'),
-  newContact('pancho','pancho@pp.com'),
-  newContact('pepe','pepe@pp.com'),
-]
+import {NOMBRES} from '../nombres.js'
+var contacts=NOMBRES.map(e=>{return {name:e}})
 
 function App() {
 
+  const [contact, setContact] = useState('')
+  const removeContact=(i)=>{
+    contacts.splice(i,1)
+  }
+
+  const addContact=(username)=>{
+    contacts.push({name:username})
+    contacts.sort((a,b)=>(a.name.toLocaleLowerCase()<b.name.toLocaleLowerCase())?-1:1)
+  }
+
   return (
     <>
+      <p>{`Selected contact: ${contact}`}</p>
       <Contacts 
-        onAdd={(username)=>alert(`adding contact ${username}`)}
-        onRemove={(i)=>alert(`removing contact ${contacts[i].name}`)}
-        onSelect={(i)=>alert(`selecting contact ${contacts[i].name}`)}
+        onAdd={addContact}
+        onRemove={removeContact}
+        onSelect={(i)=>setContact( contacts[i].name)}
         contacts={contacts}/>
     </>
   )

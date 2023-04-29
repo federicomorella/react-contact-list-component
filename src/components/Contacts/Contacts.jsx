@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 export function Contacts({contacts,onSelect,onAdd,onRemove}){
     const [showSearch, setShowSearch] = useState(false);
     const [showConfirmation, setShowConfirmation] = useState(false);
-    const [contact, setContact] = useState(null);
+    const [contact, setContact] = useState(0);
 
     const target = useRef(null);
     const usernameInput=useRef(null);
@@ -43,10 +43,12 @@ export function Contacts({contacts,onSelect,onAdd,onRemove}){
         <ListGroup.Item 
             className='p-0'
             key={i}
-            variant='outline-dark'
+            variant={contact==i?'primary':'light'}
+
             >
             <ButtonGroup
                 className='col-12'
+                style={{paddingLeft:contact==i?'5px':'0px'}}
                 >
                 <Button 
                     size='sm'
@@ -59,7 +61,7 @@ export function Contacts({contacts,onSelect,onAdd,onRemove}){
                     size='sm'
                     variant='light'
                     style={{width:'fit-content'}}
-                    onClick={()=>setShowConfirmation(true)}
+                    onClick={()=>{setContact(i);setShowConfirmation(true)}}
                     >-           
                 </Button> 
             </ButtonGroup>
